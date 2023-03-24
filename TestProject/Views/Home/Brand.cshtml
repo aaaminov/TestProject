@@ -1,0 +1,46 @@
+﻿@{
+    @model TestProject.Models.Brand_Car
+    ViewData["Title"] = ViewBag.title;
+
+    int id = 0;
+    string name = "";
+    bool active = true;
+    //int brand_id = 0;
+    if (ViewBag.current_brand != null) {
+        id = ViewBag.current_brand.id;
+        name = ViewBag.current_brand.name;
+        active = ViewBag.current_brand.active;
+    }
+}
+<h1>@ViewData["Title"]</h1>
+
+<form asp-controller="Home" asp-action="SaveBrand">
+    <p>
+        <label asp-for="id">ID</label>
+        <br/>
+		<input asp-for="id" value="@id" type="text" readonly/>
+    </p>
+    <p>
+        <label asp-for="name">Название</label>
+        <br/>
+		<input asp-for="name" value="@name" type="text"/>
+    </p>
+    <p>
+        <label asp-for="active">Активно</label>
+        <br/>
+        <select name="active">
+        @{
+            if (ViewBag.current_brand != null && !ViewBag.current_brand.active) {
+                <option value="true">true</option>
+				<option value="false" selected>false</option>
+            } else {
+				<option value="true" selected>true</option>
+				<option value="false">false</option>
+            }
+		}
+		</select>
+    </p>
+    <p>
+        <input type="submit" value="Сохранить" />
+    </p>
+</form>

@@ -1,0 +1,62 @@
+﻿@{
+    @model TestProject.Models.Model_Car
+    ViewData["Title"] = ViewBag.title;
+
+    int id = 0;
+    int brand_id = 0;
+    string name = "";
+    bool active = true;
+    if (ViewBag.current_model != null) {
+        id = ViewBag.current_model.id;
+        brand_id = ViewBag.current_model.brand_id;
+        name = ViewBag.current_model.name;
+        active = ViewBag.current_model.active;
+    }
+}
+<h1>@ViewData["Title"]</h1>
+
+<form asp-controller="Home" asp-action="SaveModel">
+    <p>
+        <label asp-for="id">ID</label>
+        <br />
+        <input asp-for="id" value="@id" type="text" readonly />
+    </p>
+    <p>
+        <label asp-for="brand_id">Бренд</label>
+        <br />
+        <select name="brand_id">
+            @{
+                foreach (Brand_Car brand in ViewBag.brands) {
+                    if (ViewBag.current_model != null && brand.id == ViewBag.current_model.brand_id) {
+                        <option value="@brand.id" selected>@brand.name</option>
+                    } else {
+                        <option value="@brand.id">@brand.name</option>
+                    }
+                }
+            }
+        </select>
+    </p>
+    <p>
+        <label asp-for="name">Название</label>
+        <br />
+        <input asp-for="name" value="@name" type="text" />
+    </p>
+    <p>
+        <label asp-for="active">Активно</label>
+        <br />
+        <select name="active">
+            @{
+                if (ViewBag.current_model != null && !ViewBag.current_model.active) {
+                    <option value="true">true</option>
+                    <option value="false" selected>false</option>
+                } else {
+                    <option value="true" selected>true</option>
+                    <option value="false">false</option>
+                }
+            }
+        </select>
+    </p>
+    <p>
+        <input type="submit" value="Сохранить" />
+    </p>
+</form>
